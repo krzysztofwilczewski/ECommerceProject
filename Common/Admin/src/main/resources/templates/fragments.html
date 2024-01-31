@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:fragment="pagehead">
+<head th:fragment="pagehead(title, remove)" th:remove="${remove}">
     <meta http-equiv="content-type" content="text/html" charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+    <title>[[${title}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
