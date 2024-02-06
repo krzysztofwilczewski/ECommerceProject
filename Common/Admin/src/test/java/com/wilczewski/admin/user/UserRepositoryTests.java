@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,5 +40,18 @@ public class UserRepositoryTests {
         User admin = repository.findById(1).get();
         admin.setEnabled(true);
         repository.save(admin);
+    }
+
+    @Test
+    public void testEncodePassword(){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String raw = "krzysztof";
+        String encoded = passwordEncoder.encode(raw);
+
+        System.out.println(encoded);
+
+        boolean match = passwordEncoder.matches(raw, encoded);
+
+        assertThat(match).isTrue();
     }
 }
