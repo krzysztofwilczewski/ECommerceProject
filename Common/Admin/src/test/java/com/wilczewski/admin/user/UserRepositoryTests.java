@@ -54,4 +54,12 @@ public class UserRepositoryTests {
 
         assertThat(match).isTrue();
     }
+
+    @Test
+    public void testGetUserByEmail(){
+        String email = "admin@admin.pl";
+        User user = repository.getUserByEmail(email);
+
+        assertThat(user).isNotNull();
+    }
 }
