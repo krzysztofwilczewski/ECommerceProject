@@ -3,7 +3,6 @@
 
 <head th:replace="~{fragments :: pagehead('ADMIN - PANEL', 'none')}"/>
 <body>
-<h1>Witam w panelu admina</h1>
 <div class="container-fluid">
   <div>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -56,8 +55,14 @@
 
     </nav>
   </div>
+
   <div>
     <h2>Zarządzanie użytkownikami</h2>
+    <a th:href="@{/users/new}">Nowy użytkownik</a>
+  </div>
+
+  <div th:if="${message != null}" class="alert alert-success text-center">
+    [[${message}]]
   </div>
 
   <div>
