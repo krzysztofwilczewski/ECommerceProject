@@ -4,6 +4,9 @@ import com.wilczewski.shared.entity.Role;
 import com.wilczewski.shared.entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,8 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 public class UserService {
+
+    public static final int USERS_PER_PAGE = 4;
 
     private UserRepository userRepository;
 
@@ -95,6 +100,11 @@ public class UserService {
 
     public void updateUserStatus(Integer id, boolean enabled){
         userRepository.updateStatus(id, enabled);
+    }
+
+    public Page<User> listByPage(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE);
+        return userRepository.findAll(pageable);
     }
 
 }
