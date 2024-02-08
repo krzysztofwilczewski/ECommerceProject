@@ -1,6 +1,8 @@
 package com.wilczewski.admin.user;
 
 import com.wilczewski.shared.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, PagingAndS
     @Query("UPDATE User u SET u.enabled = ?2 WHERE u.Id = ?1")
     @Modifying
    public void updateStatus(Integer id, boolean enabled);
+
+    @Query("SELECT u FROM User u WHERE CONCAT(u.Id, ' ', u.email, ' ', u.firstName, ' ', u.lastName) LIKE %?1%")
+    public Page<User> findAll(String keyword, Pageable pageable);
 }
