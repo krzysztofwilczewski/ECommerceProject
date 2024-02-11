@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head th:replace="~{fragments :: pagehead('ADMIN - PANEL', 'none')}"/>
 <body>
 <h1>Witam w panelu admina</h1>
 <div class="container-fluid">
     <div>
+        <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+            <input type="submit" />
+        </form>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <a class="navbar-brand" th:href="@{/}">
                 <img th:src="@{/images/kazauto.png}" />
@@ -51,6 +54,18 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/settings}">Ustawienia</a>
                     </li>
+
+                    <li>
+                        <span class="fas fa-user fa-2x icon-silver"></span>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                           sec:authentication="principal.fullName"></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" id="logoutLink" href="">Logout</a>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
 
@@ -65,5 +80,14 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#logoutLink").on("click", function (e) {
+            e.preventDefault();
+            document.logoutForm.submit();
+        });
+    });
+</script>
 </body>
 </html>

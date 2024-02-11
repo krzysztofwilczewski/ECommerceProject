@@ -83,15 +83,15 @@
     <table class="table table-bordered table-striped table-hover table-responsive-xl">
       <thead class="thead-dark">
       <tr>
-        <th th:replace="fragments :: column_link('id', 'ID')" />
-        <th th:replace="fragments :: column_link('email', 'E-mail')" />
-        <th th:replace="fragments :: column_link('firstName', 'Imię')" />
-        <th th:replace="fragments :: column_link('lastName', 'Nazwisko')" />
+        <th th:replace="~{fragments :: column_link('id', 'ID')}" />
+        <th th:replace="~{fragments :: column_link('email', 'E-mail')}" />
+        <th th:replace="~{fragments :: column_link('firstName', 'Imię')}" />
+        <th th:replace="~{fragments :: column_link('lastName', 'Nazwisko')}" />
 
 
 
         <th>Uprawnienia</th>
-        <th th:replace="fragments :: column_link('enabled', 'Status')" />
+        <th th:replace="~{fragments :: column_link('enabled', 'Status')}" />
         <th></th>
       </tr>
       </thead>
@@ -135,24 +135,24 @@
     <nav>
       <ul class="pagination justify-content-center">
         <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="fragments :: page_link(1, 'Pierwsza')"></a>
+          <a th:replace="~{fragments :: page_link(1, 'Pierwsza')}"></a>
         </li>
         <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="fragments :: page_link(${currentPage - 1}, 'Poprzednia')"></a>
+          <a th:replace="~{fragments :: page_link(${currentPage - 1}, 'Poprzednia')}"></a>
         </li>
 
         <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
             th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:replace="fragments :: page_link(${i}, ${i})"></a>
+          <a th:replace="~{fragments :: page_link(${i}, ${i})}"></a>
         </li>
 
 
         <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="fragments :: page_link(${currentPage + 1}, 'Następna')"></a>
+          <a th:replace="~{fragments :: page_link(${currentPage + 1}, 'Następna')}"></a>
         </li>
 
         <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="fragments :: page_link(${totalPages}, 'Ostatnia')"></a>
+          <a th:replace="~{fragments :: page_link(${totalPages}, 'Ostatnia')}"></a>
         </li>
       </ul>
     </nav>
