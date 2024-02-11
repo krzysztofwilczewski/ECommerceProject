@@ -8,6 +8,10 @@
     <div th:replace="~{fragments :: menu}"></div>
     <div>
         <h1>Panel kontrolny</h1>
+        Witaj
+        <a th:href="@{/account}"
+           sec:authentication="principal.fullName"></a>
+        <span sec:authentication="principal.authorities"></span>
     </div>
 
     <div th:replace="~{fragments :: footer}"></div>
