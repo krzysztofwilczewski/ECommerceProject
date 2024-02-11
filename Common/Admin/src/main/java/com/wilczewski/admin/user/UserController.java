@@ -1,10 +1,12 @@
 package com.wilczewski.admin.user;
 
+import com.wilczewski.admin.security.AdminUserDetails;
 import com.wilczewski.shared.entity.Role;
 import com.wilczewski.shared.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -125,5 +127,27 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", message);
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/account")
+    public String viewDetails(@AuthenticationPrincipal AdminUserDetails loggedUser, Model model) {
+        String email = loggedUser.getUsername();
+        User user = userService.getByEmail(email);
+        model.addAttribute("user", user);
+
+        return "account";
+    }
+
+    @PostMapping("/account/update")
+    public String saveDetails(User user, RedirectAttributes redirectAttributes, @AuthenticationPrincipal AdminUserDetails loggedUser){
+
+        userService.updateAccount(user);
+
+        loggedUser.setFirstName(user.getFirstName());
+        loggedUser.setLastName(user.getLastName());
+
+        redirectAttributes.addFlashAttribute("message", "Dane użytkownika zostały zaktualizowane.");
+
+        return "redirect:/account";
     }
 }
