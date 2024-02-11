@@ -104,5 +104,28 @@
    class="page-link"
    th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]</a>
 
+<!-- Categories -->
+<div th:fragment="category_status" th:remove="tag">
+    <a th:if="${cat.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
+       th:href="@{'/categories/' + ${cat.id} + '/enabled/false'}"
+       title="Zmień status kategori"
+    ></a>
+
+    <a th:if="${cat.enabled == false}" class="fas fa-circle fa-2x icon-dark"
+       th:href="@{'/categories/' + ${cat.id} + '/enabled/true'}"
+       title="Enable this category"
+    ></a>
+</div>
+
+<div th:fragment="category_actions" th:remove="tag">
+    <a class="fas fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}"
+       title="Edycja kategori"></a>
+    &nbsp;
+    <a class="fas fa-trash fa-2x icon-dark link-delete"
+       th:href="@{'/categories/delete/' + ${cat.id}}"
+       th:catId="${cat.id}"
+       title="Usuń kategorię"></a>
+</div>
+
 </body>
 </html>
