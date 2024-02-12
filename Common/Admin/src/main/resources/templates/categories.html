@@ -11,6 +11,10 @@
 
     </div>
 
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+
     <div>
         <form th:action="@{/categories/page/1}" class="form-inline m-3">
             Filter:&nbsp;
@@ -41,7 +45,9 @@
             <tbody>
             <tr th:each="cat : ${listCategories}">
                 <td>[[${cat.id}]]</td>
-                <td></td>
+                <td>
+                    <img th:src="@{${cat.imagePath}}" style="width: 100px" class="img-fluid"/>
+                </td>
                 <td>[[${cat.name}]]</td>
                 <td>[[${cat.alias}]]</td>
                 <td>
