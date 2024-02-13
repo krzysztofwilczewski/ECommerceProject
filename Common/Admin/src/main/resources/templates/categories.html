@@ -36,7 +36,10 @@
             <tr>
                 <th>ID</th>
                 <th>Zdjęcie</th>
-                <th>Nazwa</th>
+                <th>
+                    <a class="text-white" th:href="@{'/categories?sortDir=' + ${reverseSortDir}}">Nazwa</a>
+                    <span th:class="${reverseSortDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}" ></span>
+                </th>
                 <th>Alias</th>
                 <th>Status</th>
                 <th></th>
