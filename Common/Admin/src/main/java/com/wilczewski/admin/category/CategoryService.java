@@ -1,6 +1,7 @@
 package com.wilczewski.admin.category;
 
 import com.wilczewski.shared.entity.Category;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@Transactional
 public class CategoryService {
 
     private CategoryRepository categoryRepository;
@@ -166,5 +168,9 @@ public class CategoryService {
         sortedChildren.addAll(children);
 
         return sortedChildren;
+    }
+
+    public void updateCategoryEnabledStatus(Integer id, boolean enabled) {
+        categoryRepository.updateEnabledStatus(id, enabled);
     }
 }

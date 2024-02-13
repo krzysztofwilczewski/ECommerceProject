@@ -3,6 +3,7 @@ package com.wilczewski.admin.category;
 import com.wilczewski.shared.entity.Category;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Pa
 
     public Category findByName(String name);
     public Category findByAlias(String alias);
+
+    @Query("UPDATE Category c SET c.enabled = ?2 WHERE c.id = ?1")
+    @Modifying
+    public void updateEnabledStatus(Integer id, boolean enabled);
 }
