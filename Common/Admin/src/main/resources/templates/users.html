@@ -76,42 +76,44 @@
   </div>
 
   <div class="text-center m-1" th:if="${totalItems > 0}">
-    <span>Użytkownicy # [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
+    <span>Użytkownicy od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
   </div>
   <div class="text-center m-1" th:unless="${totalItems > 0}">
-    <span>No users found</span>
+    <span>Brak użytkowników</span>
   </div>
 
-  <div th:if="${totalPages > 1}">
+  <div>
     <nav>
       <ul class="pagination justify-content-center">
         <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="~{fragments :: page_link(1, 'Pierwsza')}"></a>
+          <a class="page-link" th:href="@{'/users/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
         </li>
         <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="~{fragments :: page_link(${currentPage - 1}, 'Poprzednia')}"></a>
+          <a class="page-link" th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
         </li>
 
         <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
             th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:replace="~{fragments :: page_link(${i}, ${i})}"></a>
+          <a class="page-link" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
         </li>
 
 
         <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="~{fragments :: page_link(${currentPage + 1}, 'Następna')}"></a>
+          <a class="page-link" th:href="@{'/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
         </li>
 
         <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-          <a th:replace="~{fragments :: page_link(${totalPages}, 'Ostatnia')}"></a>
+          <a class="page-link" th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
         </li>
       </ul>
     </nav>
   </div>
 
+<!--  <div th:replace="fragments :: pagination('/users', 'users')"></div> -->
+
   <div th:replace="~{modal_fragments :: confirm_modal}" />
 
-  <div th:replace="~{fragments :: footer}"></div>
+  <div th:replace="~{fragments :: footer}"/>
 
 </div>
 
