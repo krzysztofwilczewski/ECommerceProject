@@ -21,7 +21,7 @@ public class BrandRepositoryTests {
 
     @Test
     public void testCreateBrand(){
-        Category electric = new Category(5);
+        Category electric = new Category(6);
         Brand bosch = new Brand("Bosch");
 
         bosch.getCategories().add(electric);
@@ -45,5 +45,20 @@ public class BrandRepositoryTests {
         assertThat(saveBrand).isNotNull();
         assertThat(saveBrand.getId()).isGreaterThan(0);
 
+    }
+
+    @Test
+    public void testCreateBrand3() {
+        Category electric = new Category(5);
+        Category manual = new Category(6);
+
+        Brand apple = new Brand("Apple");
+        apple.getCategories().add(electric);
+        apple.getCategories().add(manual);
+
+        Brand savedBrand = brandRepository.save(apple);
+
+        assertThat(savedBrand).isNotNull();
+        assertThat(savedBrand.getId()).isGreaterThan(0);
     }
 }

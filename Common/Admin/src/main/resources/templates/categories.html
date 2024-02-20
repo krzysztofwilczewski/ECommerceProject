@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: pagehead('Admin - kategorie', 'none')}" />
+<head th:replace="~{fragments :: pagehead('Admin - kategorie', 'none')}"/>
 <body>
-<th:block class="container-fluid">
+<div class="container-fluid">
     <div th:replace="~{fragments :: menu}"></div>
     <div>
         <h2>Kategorie</h2>
@@ -15,7 +15,7 @@
         [[${message}]]
     </div>
 
-    <div th:replace="~{fragments :: search_form('/categories/page/1')}" />
+    <div th:replace="~{fragments :: search_form('/categories/page/1')}"/>
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
@@ -24,8 +24,9 @@
                 <th>ID</th>
                 <th>Zdjęcie</th>
                 <th>
-                    <a class="text-white" th:href="@{'/categories/page/' + ${currentPage} + '?sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Nazwa</a>
-                    <span th:class="${reverseSortDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}" ></span>
+                    <a class="text-white"
+                       th:href="@{'/categories/page/' + ${currentPage} + '?sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Nazwa</a>
+                    <span th:class="${reverseSortDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
                 </th>
                 <th>Alias</th>
                 <th>Status</th>
@@ -50,18 +51,18 @@
                        th:href="@{'/categories/' + ${cat.id} + '/enabled/true'}"
                        title="Enable this category"
                     ></a>
-                   <!-- <div th:replace="~{fragments :: category_status}" /> -->
+                    <!-- <div th:replace="~{fragments :: category_status}" /> -->
                 </td>
                 <td>
-                <!--    <div th:replace="~{fragments :: category_actions}" /> -->
+                    <!--    <div th:replace="~{fragments :: category_actions}" /> -->
                     <a class="fas fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}"
                        title="Edycja kategorii"></a>
                     &nbsp;
                     <th:block th:if="${cat.hasChildren == false}">
-                    <a class="fas fa-trash fa-2x icon-dark link-delete icon-red"
-                       th:href="@{'/categories/delete/' + ${cat.id}}"
-                       th:catId="${cat.id}"
-                       title="Usuń kategorię"></a>
+                        <a class="fas fa-trash fa-2x icon-dark link-delete icon-red"
+                           th:href="@{'/categories/delete/' + ${cat.id}}"
+                           th:catId="${cat.id}"
+                           title="Usuń kategorię"></a>
                     </th:block>
                 </td>
             </tr>
@@ -72,39 +73,44 @@
     <div th:if="${keyword != null}" class="text-center">
         <span>Wyszukane kategorie nie są wyświetlone w formie hierarchicznej</span>
 
-    <div class="text-center m-1" th:if="${totalItems > 0}">
-        <span>Kategorie od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
-    </div>
-    <div class="text-center m-1" th:unless="${totalItems > 0}">
-        <span>Brak kategorii</span>
-    </div>
+        <div class="text-center m-1" th:if="${totalItems > 0}">
+            <span>Kategorie od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
+        </div>
+        <div class="text-center m-1" th:unless="${totalItems > 0}">
+            <span>Brak kategorii</span>
+        </div>
 
-    <div>
-        <nav>
-            <ul class="pagination justify-content-center">
-                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/categories/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
-                </li>
-                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
-                </li>
+        <div>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/categories/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                    </li>
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                    </li>
 
-                <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
-                    th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-                </li>
+                    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+                        th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    </li>
 
 
-                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
-                </li>
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                    </li>
 
-                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
     </div>
 
@@ -122,24 +128,29 @@
             <nav>
                 <ul class="pagination justify-content-center">
                     <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/categories/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                        <a class="page-link"
+                           th:href="@{'/categories/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
                     </li>
                     <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/categories/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
                     </li>
 
                     <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
                         th:each="i : ${#numbers.sequence(1, totalPages)}">
-                        <a class="page-link" th:href="@{'/categories/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
                     </li>
 
 
                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/categories/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
                     </li>
 
                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                        <a class="page-link" th:href="@{'/categories/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                        <a class="page-link"
+                           th:href="@{'/categories/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
                     </li>
                 </ul>
             </nav>
@@ -147,9 +158,9 @@
 
     </th:block>
 
- <!--   <div th:replace="~{fragments :: pagination('/categories', 'Categories')}"></div> -->
+    <!--   <div th:replace="~{fragments :: pagination('/categories', 'Categories')}"></div> -->
 
-    <div th:replace="~{modal_fragments :: confirm_modal}" />
+    <div th:replace="~{modal_fragments :: confirm_modal}"/>
 
     <div th:replace="~{fragments :: footer}"/>
 
