@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments :: pagehead('Admin - kategorie', 'none')}" />
 <body>
-<div class="container-fluid">
+<th:block class="container-fluid">
     <div th:replace="~{fragments :: menu}"></div>
     <div>
         <h2>Kategorie</h2>
@@ -15,20 +15,7 @@
         [[${message}]]
     </div>
 
-    <div>
-        <form th:action="@{/categories/page/1}" class="form-inline m-3">
-            Filter:&nbsp;
-            <input type="search" name="keyword" th:value="${keyword}" class="form-control" required/>
-            &nbsp;&nbsp;
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-secondary" onclick="clearFilter()">
-                <i class="fas fa-eraser"></i>
-            </button>
-        </form>
-    </div>
+    <div th:replace="~{fragments :: search_form('/categories/page/1')}" />
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
@@ -37,7 +24,7 @@
                 <th>ID</th>
                 <th>Zdjęcie</th>
                 <th>
-                    <a class="text-white" th:href="@{'/categories/page/' + ${currentPage} + '?sortDir=' + ${reverseSortDir}}">Nazwa</a>
+                    <a class="text-white" th:href="@{'/categories/page/' + ${currentPage} + '?sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Nazwa</a>
                     <span th:class="${reverseSortDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}" ></span>
                 </th>
                 <th>Alias</th>
@@ -82,6 +69,9 @@
         </table>
     </div>
 
+    <div th:if="${keyword != null}" class="text-center">
+        <span>Wyszukane kategorie nie są wyświetlone w formie hierarchicznej</span>
+
     <div class="text-center m-1" th:if="${totalItems > 0}">
         <span>Kategorie od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
     </div>
@@ -116,6 +106,47 @@
         </nav>
     </div>
 
+    </div>
+
+    <th:block th:unless="${keyword != null}">
+        <span>Wyszukane kategorie nie są wyświetlone w formie hierarchicznej</span>
+
+        <div class="text-center m-1" th:if="${totalItems > 0}">
+            <span>Kategorie od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
+        </div>
+        <div class="text-center m-1" th:unless="${totalItems > 0}">
+            <span>Brak kategorii</span>
+        </div>
+
+        <div>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link" th:href="@{'/categories/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                    </li>
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link" th:href="@{'/categories/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                    </li>
+
+                    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+                        th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a class="page-link" th:href="@{'/categories/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    </li>
+
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link" th:href="@{'/categories/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link" th:href="@{'/categories/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </th:block>
+
  <!--   <div th:replace="~{fragments :: pagination('/categories', 'Categories')}"></div> -->
 
     <div th:replace="~{modal_fragments :: confirm_modal}" />
@@ -137,6 +168,10 @@
             $("#confirmModal").modal();
         });
     });
+
+    function clearFilter() {
+        window.location = "[[@{/categories}]]";
+    }
 
 </script>
 </body>

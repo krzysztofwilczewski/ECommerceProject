@@ -16,19 +16,7 @@
     [[${message}]]
   </div>
 
-  <div>
-    <form th:action="@{/users/page/1}" class="form-inline m-3">
-      <input type="hidden" name="sortField" th:value="${sortField}" />
-      <input type="hidden" name="sortDir" th:value="${sortDir}" />
-
-      Wyszukaj:&nbsp;
-      <input type="search" name="keyword" th:value="${keyword}" class="form-control" required/>
-      &nbsp;&nbsp;
-      <input type="submit" value="Szukaj" class="btn btn-primary" />
-      &nbsp;&nbsp;
-      <input type="button" value="Wyczyść" class="btn btn-secondary" onclick="clearFilter()" />
-    </form>
-  </div>
+  <div th:replace="~{fragments :: search_form('/users/page/1')}" />
 
   <div>
     <table class="table table-bordered table-striped table-hover table-responsive-xl">
@@ -75,6 +63,8 @@
     </table>
   </div>
 
+
+
   <div class="text-center m-1" th:if="${totalItems > 0}">
     <span>Użytkownicy od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
   </div>
@@ -109,7 +99,7 @@
     </nav>
   </div>
 
-<!--  <div th:replace="fragments :: pagination('/users', 'users')"></div> -->
+ <!-- <div th:replace="~{fragments :: pagination('/users', 'users')}"></div> -->
 
   <div th:replace="~{modal_fragments :: confirm_modal}" />
 
