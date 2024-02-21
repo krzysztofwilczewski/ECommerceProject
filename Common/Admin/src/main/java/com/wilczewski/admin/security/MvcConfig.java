@@ -14,6 +14,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         directory("../category-images", registry);
+        directory("../brand-logos", registry);
 
     }
 
