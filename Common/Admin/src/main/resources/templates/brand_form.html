@@ -100,27 +100,20 @@
     }
 
     function checkUnique(form) {
-        catId = $("#id").val();
-        catName = $("#name").val();
-        catAlias = $("#alias").val();
-
+        url = "[[@{/brands/check_unique}]]";
+        brandId = $("#id").val();
+        brandName = $("#name").val();
         csrfValue = $("input[name='_csrf']").val();
-
-        url = "[[@{/categories/check_unique}]]";
-
-        params = {id: catId, name: catName, alias: catAlias, _csrf: csrfValue};
+        params = {id: brandId, name: brandName, _csrf: csrfValue};
 
         $.post(url, params, function(response) {
             if (response == "OK") {
                 form.submit();
-            } else if (response == "DuplicateName") {
-                showWarningModal("Istnieje inna kategoria o nazwie " + catName);
-            } else if (response == "DuplicateAlias") {
-                showWarningModal("Istnieje inna kategoria o aliasie " + catAlias);
+            } else if (response == "Duplicate") {
+                showWarningModal("Istnieje już producent o nazwie " + brandName);
             } else {
                 showErrorModal("Unknown response from server");
             }
-
         }).fail(function() {
             showErrorModal("Could not connect to the server");
         });
