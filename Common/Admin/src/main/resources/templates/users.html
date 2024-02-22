@@ -5,123 +5,127 @@
 <body>
 <div class="container-fluid">
 
-  <div th:replace="~{fragments :: menu}"></div>
+    <div th:replace="~{fragments :: menu}"></div>
 
-  <div>
-    <h2>Zarządzanie użytkownikami</h2>
-    <a th:href="@{/users/new}">Nowy użytkownik</a>
-  </div>
+    <div>
+        <h2>Zarządzanie użytkownikami</h2>
+        <a th:href="@{/users/new}">Nowy użytkownik</a>
+    </div>
 
-  <div th:if="${message != null}" class="alert alert-success text-center">
-    [[${message}]]
-  </div>
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
 
-  <div th:replace="~{fragments :: search_form('/users/page/1')}" />
+    <div th:replace="~{fragments :: search_form('/users/page/1')}"/>
 
-  <div>
-    <table class="table table-bordered table-striped table-hover table-responsive-xl">
-      <thead class="thead-dark">
-      <tr>
-        <th th:replace="~{fragments :: column_link('id', 'ID')}" />
-        <th th:replace="~{fragments :: column_link('email', 'E-mail')}" />
-        <th th:replace="~{fragments :: column_link('firstName', 'Imię')}" />
-        <th th:replace="~{fragments :: column_link('lastName', 'Nazwisko')}" />
-
-
-
-        <th>Uprawnienia</th>
-        <th th:replace="~{fragments :: column_link('enabled', 'Status')}" />
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="user : ${listUsers}">
-        <td>[[${user.id}]]</td>
-        <td>[[${user.email}]]</td>
-        <td>[[${user.firstName}]]</td>
-        <td>[[${user.lastName}]]</td>
-        <td>[[${user.roles}]]</td>
-        <td>
-          <a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
-             th:href="@{'/users/' + ${user.id} + '/enabled/false'}"
-             title="Zdezaktywuj użytkownika"
-          ></a>
-
-          <a th:if="${user.enabled == false}" class="fas fa-circle fa-2x icon-dark"
-             th:href="@{'/users/' + ${user.id} + '/enabled/true'}"
-             title="Uaktywnij użytkownika"
-          ></a>
-        </td>
-        <td>
-          <a class="fas fa-user-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}" title="Edycja użytkownika"></a>
-          &nbsp;
-          <a class="fas fa-trash-alt fa-2x icon-dark link-delete icon-red"
-             th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Usuń użytkownika"></a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    <div>
+        <table class="table table-bordered table-striped table-hover table-responsive-xl">
+            <thead class="thead-dark">
+            <tr>
+                <th th:replace="~{fragments :: column_link('id', 'ID')}"/>
+                <th th:replace="~{fragments :: column_link('email', 'E-mail')}"/>
+                <th th:replace="~{fragments :: column_link('firstName', 'Imię')}"/>
+                <th th:replace="~{fragments :: column_link('lastName', 'Nazwisko')}"/>
 
 
+                <th>Uprawnienia</th>
+                <th th:replace="~{fragments :: column_link('enabled', 'Status')}"/>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${listUsers}">
+                <td>[[${user.id}]]</td>
+                <td>[[${user.email}]]</td>
+                <td>[[${user.firstName}]]</td>
+                <td>[[${user.lastName}]]</td>
+                <td>[[${user.roles}]]</td>
+                <td>
+                    <a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
+                       th:href="@{'/users/' + ${user.id} + '/enabled/false'}"
+                       title="Zdezaktywuj użytkownika"
+                    ></a>
 
-  <div class="text-center m-1" th:if="${totalItems > 0}">
-    <span>Użytkownicy od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
-  </div>
-  <div class="text-center m-1" th:unless="${totalItems > 0}">
-    <span>Brak użytkowników</span>
-  </div>
-
-  <div>
-    <nav>
-      <ul class="pagination justify-content-center">
-        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-          <a class="page-link" th:href="@{'/users/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
-        </li>
-        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-          <a class="page-link" th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
-        </li>
-
-        <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
-            th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a class="page-link" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-        </li>
+                    <a th:if="${user.enabled == false}" class="fas fa-circle fa-2x icon-dark"
+                       th:href="@{'/users/' + ${user.id} + '/enabled/true'}"
+                       title="Uaktywnij użytkownika"
+                    ></a>
+                </td>
+                <td>
+                    <a class="fas fa-user-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}"
+                       title="Edycja użytkownika"></a>
+                    &nbsp;
+                    <a class="fas fa-trash-alt fa-2x icon-dark link-delete icon-red"
+                       th:href="@{'/users/delete/' + ${user.id}}" th:userId="${user.id}" title="Usuń użytkownika"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 
-        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-          <a class="page-link" th:href="@{'/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
-        </li>
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span>Użytkownicy od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1" th:unless="${totalItems > 0}">
+        <span>Brak użytkowników</span>
+    </div>
 
-        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-          <a class="page-link" th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+    <div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/users/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                </li>
 
- <!-- <div th:replace="~{fragments :: pagination('/users', 'users')}"></div> -->
+                <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                </li>
 
-  <div th:replace="~{modal_fragments :: confirm_modal}" />
 
-  <div th:replace="~{fragments :: footer}"/>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                </li>
+
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- <div th:replace="~{fragments :: pagination('/users', 'users')}"></div> -->
+
+    <div th:replace="~{modal_fragments :: confirm_modal}"/>
+
+    <div th:replace="~{fragments :: footer}"/>
 
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $(".link-delete").on("click", function(e) {
-      e.preventDefault();
-      link = $(this);
-      userId = link.attr("userId");
-      $("#yesButton").attr("href", link.attr("href"));
-      $("#confirmText").text("Usunąć użytkownika o ID " + userId + "?");
-      $("#confirmModal").modal();
+    $(document).ready(function () {
+        $(".link-delete").on("click", function (e) {
+            e.preventDefault();
+            link = $(this);
+            userId = link.attr("userId");
+            $("#yesButton").attr("href", link.attr("href"));
+            $("#confirmText").text("Usunąć użytkownika o ID " + userId + "?");
+            $("#confirmModal").modal();
+        });
     });
-  });
 
-  function clearFilter() {
-    window.location = "[[@{/users}]]";
-  }
+    function clearFilter() {
+        window.location = "[[@{/users}]]";
+    }
 </script>
 
 </body>

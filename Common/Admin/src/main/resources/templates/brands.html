@@ -24,8 +24,9 @@
             <tr>
                 <th>ID</th>
                 <th>Logo</th>
-                <th>Nazwa</th>
-                <th>Categories</th>
+                <th th:replace="fragments :: column_table('/brands', 'name', 'Producent')"/>
+                </th>
+                <th>Kategorie</th>
                 <th></th>
             </tr>
             </thead>
@@ -63,6 +64,46 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span>Producenci od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1" th:unless="${totalItems > 0}">
+        <span>Brak producentów</span>
+    </div>
+
+    <div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/brands/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/brands/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                </li>
+
+                <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{'/brands/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                </li>
+
+
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/brands/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                </li>
+
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/brands/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
 
