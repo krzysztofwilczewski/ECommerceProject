@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: pagehead('Admin - auta', 'none')}"/>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{fragments :: menu}"></div>
+    <div>
+        <h2>Auta</h2>
+
+        <a th:href="@{/cars/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
+
+    </div>
+
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+
+    <div th:replace="~{fragments :: search_form('/cars/page/1')}"/>
+
+    <div class="full-details">
+        <table class="table table-bordered table-striped table-hover table-responsive-xl">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Zdjęcie</th>
+                <th>
+                    <a class="text-white"
+                       th:href="@{'/cars/page/' + ${currentPage} + '?sortDir=' + ${reverseSort} + ${keyword != null ? '&keyword=' + keyword : ''}}">Nazwa</a>
+                    <span th:class="${reverseSor == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+                </th>
+                <th>Alias</th>
+            <!--    <th>Status</th> -->
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="car : ${listOfCars}">
+                <td>[[${car.id}]]</td>
+                <td>
+                    <img th:src="@{${car.imagePath}}" style="width: 100px" class="img-fluid"/>
+                </td>
+                <td>[[${car.name}]]</td>
+                <td>[[${car.alias}]]</td>
+          <!--      <td>
+                    <a th:if="${car.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
+                       th:href="@{'/cars/' + ${car.id} + '/enabled/false'}"
+                       title="Zmień status auta"
+                    ></a>
+
+                    <a th:if="${car.enabled == false}" class="fas fa-circle fa-2x icon-dark"
+                       th:href="@{'/cars/' + ${car.id} + '/enabled/true'}"
+                       title="Enable this car"
+                    ></a> -->
+                  <!--   <div th:replace="~{fragments :: category_status}" /> -->
+           <!--     </td>  -->
+                <td>
+                    <!--    <div th:replace="~{fragments :: category_actions}" /> -->
+                    <a class="fas fa-edit fa-2x icon-green" th:href="@{'/cars/edit/' + ${car.id}}"
+                       title="Edycja auta"></a>
+                    &nbsp;
+                    <th:block th:if="${car.hasChildren == false}">
+                        <a class="fas fa-trash fa-2x icon-dark link-delete icon-red"
+                           th:href="@{'/cars/delete/' + ${car.id}}"
+                           th:catId="${car.id}"
+                           title="Usuń auto"></a>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${keyword != null}" class="text-center">
+        <span>Wyszukane auta nie są wyświetlone w formie hierarchicznej</span>
+
+        <div class="text-center m-1" th:if="${totalItems > 0}">
+            <span>Auta od [[${startCount}]] do [[${stopCount}]] z [[${totalItems}]]</span>
+        </div>
+        <div class="text-center m-1" th:unless="${totalItems > 0}">
+            <span>Brak auta</span>
+        </div>
+
+        <div>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                    </li>
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                    </li>
+
+                    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+                        th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    </li>
+
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
+    <th:block th:unless="${keyword != null}">
+        <span>Wyszukane auta nie są wyświetlone w formie hierarchicznej</span>
+
+        <div class="text-center m-1" th:if="${totalItems > 0}">
+            <span>Auta od [[${startCount}]] do [[${stopCount}]] z [[${totalItems}]]</span>
+        </div>
+        <div class="text-center m-1" th:unless="${totalItems > 0}">
+            <span>Brak aut</span>
+        </div>
+
+        <div>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                    </li>
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                    </li>
+
+                    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+                        th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    </li>
+
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:href="@{'/cars/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </th:block>
+
+    <!--   <div th:replace="~{fragments :: pagination('/categories', 'Categories')}"></div> -->
+
+    <div th:replace="~{modal_fragments :: confirm_modal}"/>
+
+    <div th:replace="~{fragments :: footer}"/>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".link-delete").on("click", function (e) {
+            e.preventDefault();
+            link = $(this);
+            //alert($(this).attr("href"));
+            categoryId = link.attr("catId");
+            $("#yesButton").attr("href", link.attr("href"));
+            $("#confirmText").text("Chcesz usunąc auto o ID " + categoryId + " ?");
+            $("#confirmModal").modal();
+        });
+    });
+
+    function clearFilter() {
+        window.location = "[[@{/cars}]]";
+    }
+
+</script>
+</body>
+</html>

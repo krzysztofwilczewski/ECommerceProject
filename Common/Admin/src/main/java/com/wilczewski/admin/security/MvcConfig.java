@@ -15,6 +15,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         directory("../category-images", registry);
         directory("../brand-logos", registry);
+        directory("../car-images", registry);
 
     }
 
