@@ -42,7 +42,7 @@ public class WebSecurityConfig {
 
       //  http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**", "/categories/**", "/brands/**", "/cars/**").hasAuthority("Admin")
+                        .requestMatchers("/users/**", "/categories/**", "/brands/**", "/cars/**", "/products/**").hasAuthority("Admin")
                         .anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login").usernameParameter("email").permitAll())
                 .logout(logout -> logout.permitAll())
