@@ -41,7 +41,11 @@
                 <td>[[${product.name}]]</td>
                 <td>[[${product.brand.name}]]</td>
                 <td>[[${product.category.name}]]</td>
-                <td>[[${product.car.name}]]</td>
+                <td>
+                    <th:block th:each="car: ${product.car}">
+                        <span class="badge badge-secondary" th:text="${car.name}"></span>
+                    </th:block>
+                </td>
                 <td>
                     <a th:if="${product.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
                        th:href="@{'/products/' + ${product.id} + '/enabled/false'}"

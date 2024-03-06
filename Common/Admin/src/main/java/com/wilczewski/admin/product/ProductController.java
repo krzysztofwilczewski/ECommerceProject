@@ -1,5 +1,9 @@
 package com.wilczewski.admin.product;
 
+import com.wilczewski.admin.brand.BrandService;
+import com.wilczewski.admin.car.CarService;
+import com.wilczewski.shared.entity.Brand;
+import com.wilczewski.shared.entity.Car;
 import com.wilczewski.shared.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +16,14 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
+    private BrandService brandService;
+    private CarService carService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, BrandService brandService, CarService carService) {
         this.productService = productService;
+        this.brandService = brandService;
+        this.carService = carService;
     }
 
     @GetMapping("/products")
@@ -26,5 +34,26 @@ public class ProductController {
 
         return "products";
     }
+
+    @GetMapping("/products/new")
+    public String newProduct(Model model){
+
+        List<Brand> listBrands = brandService.listAll();
+        List<Car> listCars = carService.listOfCars();
+
+        Product product = new Product();
+        product.setEnabled(true);
+        product.setInStock(true);
+
+        model.addAttribute("product", product);
+        model.addAttribute("listBrands", listBrands);
+        model.addAttribute("listCars", listCars);
+        model.addAttribute("pageTitle", "Nowy produkt");
+
+        return "product_form";
+
+    }
+
+
 
 }
