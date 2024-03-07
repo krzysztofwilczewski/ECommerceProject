@@ -58,4 +58,14 @@ public class ProductService {
         productRepository.updateEnabledStatus(id, enabled);
     }
 
+    public void delete(Integer id) throws ProductNotFoundException {
+        Long countById = productRepository.countById(id);
+
+        if (countById == null || countById == 0) {
+            throw new ProductNotFoundException("Nie znaleziono produktu o ID " + id);
+        }
+
+        productRepository.deleteById(id);
+    }
+
 }
