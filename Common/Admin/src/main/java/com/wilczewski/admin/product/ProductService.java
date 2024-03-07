@@ -1,6 +1,7 @@
 package com.wilczewski.admin.product;
 
 import com.wilczewski.shared.entity.Product;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductService {
 
     private ProductRepository productRepository;
@@ -50,6 +52,10 @@ public class ProductService {
         }
 
         return "OK";
+    }
+
+    public void updateProductEnabledStatus(Integer id, boolean enabled){
+        productRepository.updateEnabledStatus(id, enabled);
     }
 
 }
