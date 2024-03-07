@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: pagehead(${pageTitle}, 'none')}" />
+<head>
+    <head th:replace="~{fragments :: pagehead(${pageTitle}, 'tag')}" />
+    <link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+    <script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
 <body>
 <div class="container-fluid">
     <div th:replace="~{fragments :: menu}"></div>
@@ -31,7 +35,9 @@
                 <div class="tab-pane active p-3" id="overview" role="tabpanel">
                     <div th:replace="product_overview :: content"></div>
                 </div>
-                <div class="tab-pane" id="description" role="tabpanel">Description</div>
+                <div class="tab-pane" id="description" role="tabpanel">
+                    <div th:replace="product_description :: content"></div>
+                </div>
                 <div class="tab-pane" id="images" role="tabpanel">Images</div>
                 <div class="tab-pane" id="details" role="tabpanel">Details</div>
             </div>
@@ -58,6 +64,9 @@
         $("#buttonCancel").on("click", function () {
             window.location = "[[@{/products}]]";
         });
+
+        $("#shortDescription").richText();
+        $("#fullDescription").richText();
 
         dropdownManufacturers = $("#car");
         divChosenManufacturers = $("#chosenManufacturers");

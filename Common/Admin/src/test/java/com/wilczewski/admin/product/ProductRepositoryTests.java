@@ -41,7 +41,7 @@ public class ProductRepositoryTests {
 
         product.setBrand(brand);
         product.setCategory(category);
-        product.setCar(car);
+        product.getCar().add(car);
 
         product.setPrice(999);
         product.setCost(666);

@@ -3,6 +3,8 @@ package com.wilczewski.shared.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -47,9 +49,13 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "car_id")
-    private Car car;
+    @ManyToMany
+    @JoinTable(
+            name = "products_cars",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id")
+    )
+    private Set<Car> car = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -162,11 +168,11 @@ public class Product {
         this.category = category;
     }
 
-    public Car getCar() {
+    public Set<Car> getCar() {
         return car;
     }
 
-    public void setCar(Car car) {
+    public void setCar(Set<Car> car) {
         this.car = car;
     }
 
