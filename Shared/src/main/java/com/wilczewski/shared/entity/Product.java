@@ -61,6 +61,12 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    @Column(name = "main_image", nullable = false)
+    private String mainImage;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<ProductImage> images = new HashSet<>();
+
     public Product() {
     }
 
@@ -184,6 +190,22 @@ public class Product {
         this.brand = brand;
     }
 
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
+    }
+
+    public Set<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ProductImage> images) {
+        this.images = images;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -191,4 +213,15 @@ public class Product {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public void addExtraImage(String imageName){
+        this.images.add(new ProductImage(imageName, this));
+    }
+
+    @Transient
+    public String getMainImagePath(){
+        if (id == null || mainImage == null) return "/images/image.png";
+        return "/product-images/" + this.id + "/" + this.mainImage;
+    }
+
 }
