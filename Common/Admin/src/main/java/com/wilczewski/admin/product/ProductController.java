@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String listAll(Model model){
+    public String listAll(Model model) {
         List<Product> listProducts = productService.listAll();
 
         model.addAttribute("listProducts", listProducts);
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/new")
-    public String newProduct(Model model){
+    public String newProduct(Model model) {
 
         List<Brand> listBrands = brandService.listAll();
         List<Car> listCars = carService.listOfCars();
@@ -64,21 +64,16 @@ public class ProductController {
 
     @PostMapping("/products/save")
     public String saveProduct(Product product, RedirectAttributes redirectAttributes,
-                              @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+                              @RequestParam("fileImage") MultipartFile mainImageMultipart,
+                              @RequestParam("extraImage") MultipartFile[] extraImageMultiparts)
+            throws IOException {
+        setMainImageName(mainImageMultipart, product);
+        setExtraImageNames(extraImageMultiparts, product);
 
-        if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            product.setMainImage(fileName);
+        Product savedProduct = productService.save(product);
 
-            Product savedProduct = productService.save(product);
-            String uploadDir = "../product-images/" + savedProduct.getId();
+        saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedProduct);
 
-            FileUpload.cleanDir(uploadDir);
-            FileUpload.saveFile(uploadDir, fileName, multipartFile);
-
-        } else {
-            productService.save(product);
-        }
         redirectAttributes.addFlashAttribute("message", "Produkt został zapisany.");
 
         return "redirect:/products";
@@ -102,6 +97,12 @@ public class ProductController {
         try {
             productService.delete(id);
 
+            String productExtraImagesDir = "../product-images/" + id + "/extras";
+            String productImagesDir = "../product-images/" + id;
+
+            FileUpload.removeDir(productExtraImagesDir);
+            FileUpload.removeDir(productImagesDir);
+
             redirectAttributes.addFlashAttribute("message",
                     "Produkt o ID " + id + " został usunięty.");
         } catch (ProductNotFoundException ex) {
@@ -110,5 +111,50 @@ public class ProductController {
 
         return "redirect:/products";
     }
+
+    private void saveUploadedImages(MultipartFile mainImageMultipart,
+                                    MultipartFile[] extraImageMultiparts, Product savedProduct) throws IOException {
+        if (!mainImageMultipart.isEmpty()) {
+            String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+            String uploadDir = "../product-images/" + savedProduct.getId();
+
+            FileUpload.cleanDir(uploadDir);
+
+
+            FileUpload.saveFile(uploadDir, fileName, mainImageMultipart);
+        }
+
+        if (extraImageMultiparts.length > 0) {
+            String uploadDir = "../product-images/" + savedProduct.getId() + "/extras";
+
+            for (MultipartFile multipartFile : extraImageMultiparts) {
+                if (multipartFile.isEmpty()) continue;
+
+                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                FileUpload.saveFile(uploadDir, fileName, multipartFile);
+            }
+        }
+
+    }
+
+    private void setExtraImageNames(MultipartFile[] extraImageMultiparts, Product product) {
+        if (extraImageMultiparts.length > 0) {
+            for (MultipartFile multipartFile : extraImageMultiparts) {
+                if (!multipartFile.isEmpty()) {
+                    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                    product.addExtraImage(fileName);
+                }
+            }
+        }
+    }
+
+    private void setMainImageName(MultipartFile mainImageMultipart, Product product) {
+        if (!mainImageMultipart.isEmpty()) {
+            String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+            product.setMainImage(fileName);
+        }
+
+    }
+
 
 }

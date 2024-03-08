@@ -56,7 +56,12 @@
     <div th:replace="~{fragments :: footer}"></div>
 
 </div>
+<script th:src="@{/js/file.js}"></script>
 <script type="text/javascript">
+
+    var extraImagesCount = 0;
+
+    defaultImageThumbnailSrc ="[[@{/images/image.png}]]";
 
     brandModuleURL = "[[@{/brands}]]";
     dropdownBrands = $("#brand");
