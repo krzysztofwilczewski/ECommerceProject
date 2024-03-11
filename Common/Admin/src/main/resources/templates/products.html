@@ -38,7 +38,13 @@
                 <td>
                     <img th:src="@{${product.mainImagePath}}" style="width: 120px" class="img-fluid" />
                 </td>
-                <td>[[${product.name}]]</td>
+                <td>
+                    <a class="link-detail"
+                       th:href="@{'/products/detail/' + ${product.id}}"
+                       title="Szczegóły produktu"
+                    >[[${product.name}]]</a>
+
+                </td>
                 <td>[[${product.brand.name}]]</td>
                 <td>[[${product.category.name}]]</td>
                 <td>
@@ -59,7 +65,7 @@
 
                 </td>
                 <td>
-                    <a class="fas fa-file-alt fa-2x icon-green"
+                    <a class="fas fa-file-alt fa-2x icon-green link-detail"
                        th:href="@{'/products/detail/' + ${product.id}}"
                        title="Szczegóły produktu"
                     ></a>
@@ -85,6 +91,13 @@
 
     <div th:replace="~{modal_fragments :: confirm_modal}"/>
 
+    <div class="modal fade" id="detailModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{fragments :: footer}"/>
 
 </div>
@@ -101,6 +114,13 @@
             $("#confirmText").text("Chcesz usunąc produkt o ID " + categoryId + " ?");
             $("#confirmModal").modal();
         });
+
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            linkDetailURL = $(this).attr("href");
+            $("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
+        });
+
     });
 
     function clearFilter() {

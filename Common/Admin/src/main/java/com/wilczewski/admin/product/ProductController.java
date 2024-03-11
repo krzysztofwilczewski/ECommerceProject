@@ -154,6 +154,22 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/products/detail/{id}")
+    public String viewProductDetails(@PathVariable("id") Integer id, Model model,
+                                     RedirectAttributes ra) {
+        try {
+            Product product = productService.get(id);
+            model.addAttribute("product", product);
+
+            return "product_detail";
+
+        } catch (ProductNotFoundException e) {
+            ra.addFlashAttribute("message", e.getMessage());
+
+            return "redirect:/products";
+        }
+    }
+
     private void saveUploadedImages(MultipartFile mainImageMultipart,
                                     MultipartFile[] extraImageMultiparts, Product savedProduct) throws IOException {
         if (!mainImageMultipart.isEmpty()) {
