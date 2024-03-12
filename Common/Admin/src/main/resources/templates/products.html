@@ -21,11 +21,11 @@
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
             <thead class="thead-dark">
             <tr>
-                <th>ID</th>
+                <th th:replace="~{fragments :: column_table('/products','id', 'ID')}"/>
                 <th>Zdjęcie główne</th>
-                <th>Nazwa</th>
-                <th>Producent</th>
-                <th>Kategoria</th>
+                <th th:replace="~{fragments :: column_table('/products','name', 'Nazwa')}"/>
+                <th th:replace="~{fragments :: column_table('/products','brand', 'Producent')}"/>
+                <th th:replace="~{fragments :: column_table('/products','category', 'Kategoria')}"/>
                 <th>Auta</th>
                 <th>Status</th>
                 <th></th>
@@ -41,8 +41,8 @@
                 <td>
                     <a class="link-detail"
                        th:href="@{'/products/detail/' + ${product.id}}"
-                       title="Szczegóły produktu"
-                    >[[${product.name}]]</a>
+                       th:title="${product.name}"
+                    >[[${product.shortName}]]</a>
 
                 </td>
                 <td>[[${product.brand.name}]]</td>
@@ -82,6 +82,46 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span>Produkty od [[${startCount}]] do [[${endCount}]] z [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1" th:unless="${totalItems > 0}">
+        <span>Brak produktów</span>
+    </div>
+
+    <div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/products/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Pierwsza</a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/products/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Poprzednia</a>
+                </li>
+
+                <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{'/products/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                </li>
+
+
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/products/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Następna</a>
+                </li>
+
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/products/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ostatnia</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
 
