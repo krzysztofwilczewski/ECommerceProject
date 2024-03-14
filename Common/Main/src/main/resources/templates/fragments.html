@@ -4,14 +4,74 @@
 <head th:fragment="pagehead(title, remove)" th:remove="${remove}">
     <meta http-equiv="content-type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
-    <title>[[${title}]] - [[${SITE_NAME}]]</title>
+    <title>[[${title}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
 </head>
 <body>
+
+<div th:fragment="header_menu">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" th:href="@{/}">
+            <img th:src="@{/images/kazauto.png}" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="topNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="">Careers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Płatności</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Dostawa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Logowanie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Rejestracja</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Kontakt</a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+</div>
+
+<div th:fragment="footer_menu">
+    <div>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bottomNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="bottomNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">O nas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Polityka prywatności</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Zwroty</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div th:fragment="footer" class="text-center m-3">
+        <p>SKLEP ON-line &copy; Me</p>
+    </div>
+</div>
+
 
 </body>
 </html>
